@@ -18,10 +18,10 @@ for xml in *.xml; do
 
     TITULO=$(grep "<titulo>" $XML | cut -d'>' -f2 | cut -d'<' -f1)
     TIPO=$(grep "<tipo>" $XML | cut -d'>' -f2 | cut -d'<' -f1)
-    NUMERO=$(grep "<numero>" $XML | cut -d'>' -f2 | cut -d'<' -f1)
+    NUMERO=$(grep "<numero>" $XML | cut -d'>' -f2 | cut -d'<' -f1 )
     ANO=$(grep "<data>" $XML | cut -d'>' -f2 | cut -d'<' -f1 | rev | cut -d' ' -f-1 | rev)
 
-    NAME="$TIPO nº $NUMERO/$ANO"
+    NAME="$TIPO Nº $NUMERO/$ANO"
     AUTHOR="BRASIL"
 
     sed "s|@name|$NAME|" ../$CAPA | sed "s|@title|$TITULO|" > $SVG

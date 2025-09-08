@@ -51,7 +51,7 @@ def generate_xml(txtFile: str, xmlFile: str, title: str):
             tokens = line.split()
             if len(tokens) >= 9:
                 tipo = tokens[0]
-                num = tokens[2].replace(".", "").replace(",", "")
+                num = tokens[2].replace(",", "")
                 data = " ".join(tokens[4:9]).replace(".", "").replace(",", "")
                 append_element(info, "titulo", title)
                 append_element(info, "tipo", tipo)
@@ -85,7 +85,7 @@ def generate_xml(txtFile: str, xmlFile: str, title: str):
             append_element(info, "local", local)
             ii = i + 1
             assinaturas = append_element(info, "assinaturas", "")
-            while not lines[ii].startswith("Este texto"):
+            while (ii < len(lines)) and (not lines[ii].startswith("Este texto")):
                 append_element(assinaturas, "nome", lines[ii].strip())
                 ii = ii + 1
             break;

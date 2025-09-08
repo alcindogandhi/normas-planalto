@@ -8,14 +8,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title><xsl:value-of select="doc/info/titulo"/></title>
         <style>
-          body { font-family: Arial, sans-serif; margin: 20px; }
-          h1 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 22pt; }
+          body { font-family: Arial, sans-serif; margin: 12pt; }
+          h1 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 24pt; }
           h2 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 20pt; }
           h3 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 18pt; }
           h4 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 16pt; }
           h5 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 14pt; }
           h6 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 12pt; }
-          p.title { font-size: 20pt; }
+          p.title { font-size: 22pt; }
           div.info p { text-align: center; font-size: 14pt; }
           div.livro p { text-align: center; font-size: 20pt;}
           div.titulo p { text-align: center; font-size: 18pt;}
@@ -42,6 +42,8 @@
 
         <!-- Livros -->
         <xsl:apply-templates select="doc/Livro"/>
+        <xsl:apply-templates select="doc/Titulo"/>
+        <xsl:apply-templates select="doc/Capitulo"/>
 
         <!-- Seção final -->
         <xsl:apply-templates select="doc/Secao[@id='F']"/>
