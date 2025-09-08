@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1250" height="1750" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="white"/>
+  <rect width="100%" height="70%" y="30%" fill="#009640"/>
+  <polygon points="10,1750 625,875 1240,1750" fill="#FFED00" />
+  <circle r="300" cx="625" cy="1800" fill="#009FE3" />
+  <text x="5%" y="10%" font-size="50pt" fill="green">@name</text>
+  <text x="5%" y="20%" font-size="40pt" fill="green">@title</text>
+</svg>

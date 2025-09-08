@@ -1,0 +1,11 @@
+build/
+env/
+__pycache__/
+.vscode/
+.idea/
+
+*.log
+*.tmp
+*.bak
+*.bkp
+*.swp
