@@ -13,7 +13,6 @@ for xml in *.xml; do
     XML=$xml
     PREFIX=$(echo $XML | cut -d'.' -f1)
     HTML=${PREFIX}.html
-    PNG=${PREFIX}.png
     EPUB=${PREFIX}.epub
     SVG=${PREFIX}.svg
 
