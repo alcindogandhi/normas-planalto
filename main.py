@@ -6,7 +6,7 @@ if __name__ == "__main__":
     os.makedirs("build", exist_ok=True)
 
     files = [
-        {"url": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicaocompilado.htm", "txtFile": "build/cf88.txt", "title": "Constituição Federal", "discard": []},
+        #{"url": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicaocompilado.htm", "txtFile": "build/cf88.txt", "title": "Constituição Federal", "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm", "txtFile": "build/ctn.txt", "title": "Código Tributário Nacional", "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm", "txtFile": "build/lindb.txt", "title": "Lei de Introdução às Normas do Direito Brasileiro", "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm", "txtFile": "build/ccivil.txt", "title": "Código Civil", "discard": ["Lei de Introdu"]},
