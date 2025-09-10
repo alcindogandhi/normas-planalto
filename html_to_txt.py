@@ -22,6 +22,7 @@ def clean_line(line: str, discard: list[str] = []) -> str:
     line = re.sub(r"\(?Vide.+\)?", "", line).strip()
     line = re.sub(r"\(Produção de efeitos.+\)", "", line).strip()
     line = re.sub(r"\(?Mensagem de veto.*\)?", "", line).strip()
+    line = re.sub(r"\(?Revogados pel.*\)?", "(Revogados)", line).strip()
     line = re.sub(r"^.NDICE.*", "", line).strip()
     line = re.sub(r"Vig[eê]ncia", "", line).strip()
     line = re.sub(r"Produ.{2}o de efeitos", "", line).strip()
