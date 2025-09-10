@@ -9,17 +9,17 @@
         <title><xsl:value-of select="doc/info/titulo"/></title>
         <style>
           body { font-family: Arial, sans-serif; margin: 12pt; }
-          h1 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 24pt; }
-          h2 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 20pt; }
-          h3 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 18pt; }
-          h4 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 16pt; }
+          h1 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 20pt; }
+          h2 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 18pt; }
+          h3 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 16pt; }
+          h4 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 15pt; }
           h5 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 14pt; }
-          h6 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 12pt; }
+          h6 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 13pt; }
           p.title { font-size: 22pt; }
           div.info p { text-align: center; font-size: 14pt; }
-          div.livro p { text-align: center; font-size: 20pt;}
-          div.titulo p { text-align: center; font-size: 18pt;}
-          div.capitulo p { text-align: center; font-size: 16pt;}
+          div.livro p { text-align: center; font-size: 18pt;}
+          div.titulo p { text-align: center; font-size: 16pt;}
+          div.capitulo p { text-align: center; font-size: 15pt;}
           div.secao p { text-align: center; font-size: 14pt;}
           div.artigo p { text-align: justify; font-size: 12pt; margin-left: 10pt; }
           .paragrafo, .inciso, .alinea, .texto { margin-left: 25pt; }

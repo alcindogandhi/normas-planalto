@@ -12,15 +12,29 @@ import re
 from bs4 import BeautifulSoup
 
 def clean_line(line: str, discard: list[str] = []) -> str:
-    line = re.sub(r"(Reda[cç][aã]o.+)", "", line)
-    line = re.sub(r"(Inclu.+)", "", line)
-    line = re.sub(r"(Vide.+)", "", line)
-    line = re.sub(r"(Produção de efeitos.+)", "", line)
-    line = re.sub(r"(Mensagem de veto.+)", "", line)
-    line = re.sub(r"(ÍNDICE.+)", "", line)
+    line = line.strip()
+    line = re.sub(r".+-?[Cc][Oo][Mm][Pp][Ii][Ll][Aa][Dd][OoAa]$", "", line).strip()
+    line = re.sub(r"^Presid.{1}ncia da Rep.{1}blica$", "", line).strip()
+    line = re.sub(r"^Casa Civil$", "", line).strip()
+    line = re.sub(r"^Subchefia para Assuntos Jur.{1}dicos$", "", line).strip()
+    line = re.sub(r"\(Reda[cç][aã]o.+\)", "", line).strip()
+    line = re.sub(r"\(Inclu.+\)", "", line).strip()
+    line = re.sub(r"\(?Vide.+\)?", "", line).strip()
+    line = re.sub(r"\(Produção de efeitos.+\)", "", line).strip()
+    line = re.sub(r"\(?Mensagem de veto.*\)?", "", line).strip()
+    line = re.sub(r"^.NDICE.*", "", line).strip()
+    line = re.sub(r"Vig[eê]ncia", "", line).strip()
+    line = re.sub(r"Produ.{2}o de efeitos", "", line).strip()
+    line = re.sub(r"Emendas Constitucionais.*", "", line).strip()
+    line = re.sub(r"^Ato das Disposi.{2}es Constitucionais.*", "", line).strip()
+    line = re.sub(r"^Atos decorrentes do disposto.+", "", line).strip()
+    line = re.sub(r"\s*Este texto n.{1}o substitui o publicado.*", "", line).strip()
+    line = re.sub(r"P A R T E.+G E R A L", "PARTE GERAL", line).strip()
+    line = re.sub(r"^\*$", "", line).strip()
+    line = re.sub(r"Art\.\s*", "Art. ", line).strip()
     for term in discard:
-        line = re.sub(rf"{term}.+", "", line)
-    return line.strip()
+        line = re.sub(term, "", line).strip()
+    return line
 
 def html_to_text(url: str, output_file: str, discard: list[str] = []):
     # Define User-Agent do Google Chrome
@@ -75,7 +89,7 @@ if __name__ == "__main__":
     files = [
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm", "outputFile": "build/ctn.txt", "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm", "outputFile": "build/lindb.txt", "discard": []},
-        {"url": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm", "outputFile": "build/ccivil.txt", "discard": ["Lei de Introdu"]},
+        {"url": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm", "outputFile": "build/ccivil.txt", "discard": ["^Lei de Introdu.+"]},
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/L8934compilado.htm", "outputFile": "build/cempr.txt", "discard": []},
     ]
     for f in files:
