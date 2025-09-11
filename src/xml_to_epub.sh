@@ -1,12 +1,14 @@
 #!/bin/sh
 
-XSLT=doc.xslt
-CAPA=capa.svg
+XSLT="../src/doc.xslt"
+CAPA="../src/capa.svg"
 
 SCRIPT=$(readlink -f "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
-cd "$SCRIPTPATH/build" || exit 1
+cd "$SCRIPTPATH/../build" || exit 1
+mkdir -p ../html
 
+echo
 for xml in *.xml; do
     echo "Processando o arquvo $xml ..."
     
@@ -24,12 +26,12 @@ for xml in *.xml; do
     NAME="$TIPO Nº $NUMERO/$ANO"
     AUTHOR="BRASIL"
 
-    sed "s|@name|$NAME|" ../$CAPA | sed "s|@title|$TITULO|" > $SVG
+    sed "s|@name|$NAME|" $CAPA | sed "s|@title|$TITULO|" > $SVG
     if [ $? -ne 0 ]; then
         echo "Erro na geração da capa SVG"
         exit 1
     fi
-    xsltproc ../$XSLT $XML > $HTML
+    xsltproc $XSLT $XML > $HTML
     if [ $? -ne 0 ]; then
         echo "Erro na transformação XSLT"
         exit 1
@@ -41,5 +43,7 @@ for xml in *.xml; do
     fi
     echo "Arquivo EPUB gerado: $EPUB"
     echo
+
+	cp $HTML ../html/
 done
 

@@ -6,5 +6,5 @@ cd "$SCRIPTPATH" || exit 1
 
 rm -fr build
 mkdir build
-python3 main.py
-sh xml_to_epub.sh
+python3 src/main.py
+sh src/xml_to_epub.sh
