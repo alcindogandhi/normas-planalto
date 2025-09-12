@@ -17,11 +17,15 @@
           h6 { margin-top: 1em; margin-bottom: 0; text-align: center; font-size: 13pt; }
           p.title { font-size: 22pt; }
           div.info p { text-align: center; font-size: 14pt; }
+          div.parte p { text-align: center; font-size: 18pt;}
           div.livro p { text-align: center; font-size: 18pt;}
           div.titulo p { text-align: center; font-size: 16pt;}
           div.capitulo p { text-align: center; font-size: 15pt;}
           div.secao p { text-align: center; font-size: 14pt;}
           div.artigo p { text-align: justify; font-size: 12pt; margin-left: 10pt; }
+          div.titulo div.texto p { text-align: justify; font-size: 12pt; font-weight: bold; margin-left: 10pt; }
+          div.texto p { text-align: justify; font-size: 12pt; margin-left: 10pt; }
+          div.artigo div.texto p { text-align: justify; font-size: 12pt; margin-left: 10pt; }
           .paragrafo, .inciso, .alinea, .texto { margin-left: 25pt; }
           .assinaturas { margin-top: 2em; }
         </style>
@@ -41,6 +45,7 @@
         <xsl:apply-templates select="doc/Secao[@id='I']"/>
 
         <!-- Livros -->
+        <xsl:apply-templates select="doc/Parte"/>
         <xsl:apply-templates select="doc/Livro"/>
         <xsl:apply-templates select="doc/Titulo"/>
         <xsl:apply-templates select="doc/Capitulo"/>
@@ -69,12 +74,20 @@
     </div>
   </xsl:template>
 
+  <!-- Parte -->
+  <xsl:template match="Parte">
+    <div class="parte">
+      <h2>PARTE <xsl:value-of select="@text"/></h2>
+      <xsl:apply-templates select="Livro|Titulo|Texto"/>
+    </div>
+  </xsl:template>
+
   <!-- Livro -->
   <xsl:template match="Livro">
     <div class="livro">
       <h2>LIVRO <xsl:value-of select="@id"/></h2>
       <p><xsl:value-of select="@text"/></p>
-      <xsl:apply-templates select="Titulo"/>
+      <xsl:apply-templates select="Titulo|Texto"/>
     </div>
   </xsl:template>
 
@@ -83,7 +96,7 @@
     <div class="titulo">
       <h3>TÍTULO <xsl:value-of select="@id"/></h3>
       <p><xsl:value-of select="@text"/></p>
-      <xsl:apply-templates select="Capitulo|Artigo"/>
+      <xsl:apply-templates select="Capitulo|Artigo|Texto"/>
     </div>
   </xsl:template>
 
@@ -92,7 +105,7 @@
     <div class="capitulo">
       <h4>CAPÍTULO <xsl:value-of select="@id"/></h4>
       <p><xsl:value-of select="@text"/></p>
-      <xsl:apply-templates select="Secao|Artigo"/>
+      <xsl:apply-templates select="Secao|Artigo|Texto"/>
     </div>
   </xsl:template>
 

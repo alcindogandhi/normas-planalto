@@ -33,6 +33,8 @@ def clean_line(line: str, discard: list[str] = []) -> str:
     line = re.sub(r"P A R T E.+G E R A L", "PARTE GERAL", line).strip()
     line = re.sub(r"^\*$", "", line).strip()
     line = re.sub(r"Art\.\s*", "Art. ", line).strip()
+    line = re.sub(r"^Regulamento$", "", line).strip()
+
     for term in discard:
         line = re.sub(term, "", line).strip()
     return line
@@ -61,6 +63,10 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
     for tag in soup(["script", "style", "noscript"]):
         tag.decompose()
 
+    # Remove as tags <sup>
+    for sup in soup.find_all("sup"):
+        sup.replace_with("")
+
     # Substitui <br> por \n
     for br in soup.find_all("br"):
         br.replace_with("\n")
@@ -71,7 +77,8 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
         #p.insert_after("\n")
 
     # Extrai texto
-    text = soup.get_text()
+    text = soup.get_text().replace('  ', ' ').replace('  ', ' ').replace('  ', ' ') \
+        .replace(' ;', ';').replace(' .', '.')
 
     # Normaliza múltiplas quebras de linha
     lines = [ clean_line(line, discard) for line in text.splitlines() ]
