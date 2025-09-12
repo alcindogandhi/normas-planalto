@@ -21,8 +21,11 @@ for xml in *.xml; do
     TITULO=$(grep "<titulo>" $XML | cut -d'>' -f2 | cut -d'<' -f1)
     TIPO=$(grep "<tipo>" $XML | cut -d'>' -f2 | cut -d'<' -f1)
     NUMERO=$(grep "<numero>" $XML | cut -d'>' -f2 | cut -d'<' -f1 )
-    ANO=$(grep "<data>" $XML | cut -d'>' -f2 | cut -d'<' -f1 | rev | cut -d' ' -f-1 | rev)
-
+    DATA=$(grep "<data>" $XML | cut -d'>' -f2 | cut -d'<' -f1)
+    DIA=$(echo $DATA | cut -d' ' -f1)
+    MES=$(echo $DATA | cut -d' ' -f3)
+    ANO=$(echo $DATA | cut -d' ' -f5)
+    
     NAME="$TIPO Nº $NUMERO/$ANO"
     AUTHOR="BRASIL"
 
