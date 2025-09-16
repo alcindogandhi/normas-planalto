@@ -13,6 +13,7 @@ if __name__ == "__main__":
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/L8934compilado.htm", "txtFile": "build/cempr.txt", "title": "Código Empresarial", "cf": False, "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm", "txtFile": "build/cpenal.txt", "title": "Código Penal", "cf": False, "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm", "txtFile": "build/cdc.txt", "title": "Código de Defesa do Consumidor", "cf": False, "discard": []},
+		{"url": "https://www.planalto.gov.br/ccivil_03/leis/l9503compilado.htm", "txtFile": "build/ctb.txt", "title": "Código de Trânsito Brasileiro", "cf": False, "discard": []}
     ]
     for f in files:
         html_to_txt.html_to_text(f["url"], f["txtFile"], f["discard"])
