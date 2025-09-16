@@ -29,23 +29,45 @@
         }
         li {
             border-bottom: 1px solid #e6e6e6;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 0.5rem;
         }
         li:last-child {
             border-bottom: none;
         }
-        a {
+        .norma-link {
+            flex: 1;
             display: block;
-            padding: 1.1rem 2rem;
+            padding: 1.1rem 1.2rem 1.1rem 2rem;
             text-decoration: none;
             color: #2a4d69;
             font-size: 1.1rem;
             transition: background 0.2s, color 0.2s, padding-left 0.2s;
-            border-radius: 16px 16px 0 0;
+            border-radius: 16px 0 0 16px;
         }
-        a:hover, a:focus {
+        .norma-link:hover, .norma-link:focus {
             background: #e0e7ef;
             color: #1a2a3a;
             padding-left: 2.5rem;
+        }
+        .epub-link {
+            display: flex;
+            align-items: center;
+            padding: 1.1rem 1.2rem 1.1rem 2rem;
+            transition: background 0.2s;
+            border-radius: 0 16px 16px 0;
+        }
+        .epub-link:hover, .epub-link:focus {
+            background: #e0e7ef;
+            padding-right: 1.5rem;
+        }
+        .epub-link img {
+            height: 32px;
+            width: 32px;
+            margin-left: 0.2rem;
+            filter: drop-shadow(0 2px 4px rgba(60,80,120,0.12));
         }
         @media (max-width: 600px) {
             ul {
@@ -62,14 +84,14 @@
 <body>
     <h1>Normas brasileiras:</h1>
     <ul>
-        <li><a href="html/cf88.html">Constituição Federal de 1988</a></li>
-        <li><a href="html/ccivil.html">Código Civil</a></li>
-        <li><a href="html/cdc.html">Código de Defesa do Consumidor</a></li>
-        <li><a href="html/cempr.html">Código Empresarial</a></li>
-        <li><a href="html/cpenal.html">Código Penal</a></li>
-        <li><a href="html/ctn.html">Código Tributário Nacional</a></li>
-        <li><a href="html/lindb.html">Lei de Introdução às Normas do Direito Brasileiro</a></li>
-        <li><a href="html/ctb.html">Código de Trânsito Brasileiro</a></li>
+        <li><a class="norma-link" href="html/cf88.html">Constituição Federal de 1988</a><a class="epub-link" href="epub/cf88.epub" title="Download EPUB"><img src="img/epub.svg" alt="Download EPUB" /></a></li>
+        <li><a class="norma-link" href="html/ccivil.html">Código Civil</a><a class="epub-link" href="epub/ccivil.epub" title="Download EPUB"><img src="img/epub.svg" alt="Download EPUB" /></a></li>
+        <li><a class="norma-link" href="html/cdc.html">Código de Defesa do Consumidor</a><a class="epub-link" href="epub/cdc.epub" title="Download EPUB"><img src="img/epub.svg" alt="Download EPUB" /></a></li>
+        <li><a class="norma-link" href="html/cempr.html">Código Empresarial</a><a class="epub-link" href="epub/cempr.epub" title="Download EPUB"><img src="img/epub.svg" alt="Download EPUB" /></a></li>
+        <li><a class="norma-link" href="html/cpenal.html">Código Penal</a><a class="epub-link" href="epub/cpenal.epub" title="Download EPUB"><img src="img/epub.svg" alt="Download EPUB" /></a></li>
+        <li><a class="norma-link" href="html/ctn.html">Código Tributário Nacional</a><a class="epub-link" href="epub/ctn.epub" title="Download EPUB"><img src="img/epub.svg" alt="Download EPUB" /></a></li>
+        <li><a class="norma-link" href="html/lindb.html">Lei de Introdução às Normas do Direito Brasileiro</a><a class="epub-link" href="epub/lindb.epub" title="Download EPUB"><img src="img/epub.svg" alt="Download EPUB" /></a></li>
+        <li><a class="norma-link" href="html/ctb.html">Código de Trânsito Brasileiro</a><a class="epub-link" href="epub/ctb.epub" title="Download EPUB"><img src="img/epub.svg" alt="Download EPUB" /></a></li>
     </ul>
 </body>
 
