@@ -48,5 +48,6 @@ for xml in *.xml; do
     echo
 
 	cp $HTML ../html/
+	cp $EPUB ../epub/
 done
 

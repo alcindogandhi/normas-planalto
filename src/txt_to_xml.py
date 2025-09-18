@@ -8,7 +8,7 @@ patterns = {
     "titulo": re.compile(r"^T[IÍ]TULO\s+(X{0,3}I{1,3}|X{0,3}IV|X{0,3}VI{0,3}|X{0,3}IX{1,3}|X{1,3})", re.IGNORECASE),
     "capitulo": re.compile(r"^CAP[IÍ]TULO\s+(X{0,3}I{1,3}|X{0,3}IV|X{0,3}VI{0,3}|X{0,3}IX{1,3}|X{1,3})", re.IGNORECASE),
     "secao": re.compile(r"^Se[cç][aã]o\s+(X{0,3}I{1,3}|X{0,3}IV|X{0,3}VI{0,3}|X{0,3}IX{1,3}|X{1,3})", re.IGNORECASE),
-    "artigo": re.compile(r"^Art.\s*(\d+-?[A-Za-z]?)[Oo°ºª\.]?\s*[-]?\s*(.+)", re.IGNORECASE),
+    "artigo": re.compile(r"^Art\.?\s*(\d{1,3}\.?\d{3}-?[A-Za-z]?|\d+-?[A-Za-z]?)[Oo°ºª\.]?\s*[-]?\s*(.+)", re.IGNORECASE),
     "artigos": re.compile(r"^Arts.\s*(\d+\sa\s\d+)\s*\.?\s*(.*)", re.IGNORECASE),
     "paragrafo": re.compile(r"^§\s*(\d+)[o°ºª]\s*(.+)", re.IGNORECASE),
     "paragrafos": re.compile(r"§§?\s?(\d+[o°ºª]?\s*.?\s*\d+.?)\s*(.*)", re.IGNORECASE),
