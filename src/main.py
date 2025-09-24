@@ -15,7 +15,7 @@ if __name__ == "__main__":
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm", "txtFile": "build/cdc.txt", "title": "Código de Defesa do Consumidor", "cf": False, "discard": []},
 		{"url": "https://www.planalto.gov.br/ccivil_03/leis/l9503compilado.htm", "txtFile": "build/ctb.txt", "title": "Código de Trânsito Brasileiro", "cf": False, "discard": []},
 		#{"url": "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm", "txtFile": "build/nllc.txt", "title": "Nova Lei de Licitações e Contratos", "cf": False, "discard": []}
-        {"url": "https://gist.githubusercontent.com/alcindogandhi/f74f01b1b841d8dc6c23f13ba4113aaa/raw/23fba5a179f3ce2c91d3a973c8e6eb2d102d3c96/nllc.html", "txtFile": "build/nllc.txt", "title": "Nova Lei de Licitações e Contratos", "cf": False, "discard": []}
+        {"url": "https://raw.githubusercontent.com/alcindogandhi/normas-planalto/refs/heads/main/src/L14133.html", "txtFile": "build/nllc.txt", "title": "Nova Lei de Licitações e Contratos", "cf": False, "discard": []}
     ]
     for f in files:
         html_to_txt.html_to_text(f["url"], f["txtFile"], f["discard"])
