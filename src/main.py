@@ -14,8 +14,10 @@ if __name__ == "__main__":
         {"url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm", "txtFile": "build/cpenal.txt", "title": "Código Penal", "cf": False, "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm", "txtFile": "build/cdc.txt", "title": "Código de Defesa do Consumidor", "cf": False, "discard": []},
 		{"url": "https://www.planalto.gov.br/ccivil_03/leis/l9503compilado.htm", "txtFile": "build/ctb.txt", "title": "Código de Trânsito Brasileiro", "cf": False, "discard": []},
-		#{"url": "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm", "txtFile": "build/nllc.txt", "title": "Nova Lei de Licitações e Contratos", "cf": False, "discard": []}
-        {"url": "https://raw.githubusercontent.com/alcindogandhi/normas-planalto/refs/heads/main/src/L14133.html", "txtFile": "build/nllc.txt", "title": "Nova Lei de Licitações e Contratos", "cf": False, "discard": []}
+		{"url": "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14133.htm", "txtFile": "build/nllc.txt", "title": "Nova Lei de Licitações e Contratos", "cf": False, "discard": []},
+        {"url": "https://raw.githubusercontent.com/alcindogandhi/normas-planalto/refs/heads/main/src/L14133.html", "txtFile": "build/nllc.txt", "title": "Nova Lei de Licitações e Contratos", "cf": False, "discard": []},
+        {"url": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp24.htm", "txtFile": "build/lc24-1975.txt", "title": "Lei Complementar 24 de 1975", "cf": False, "discard": []},
+        {"url": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm", "txtFile": "build/lc214-2025.txt", "title": "Lei Complementar 214 de 2025", "cf": False, "discard": []},
     ]
     for f in files:
         html_to_txt.html_to_text(f["url"], f["txtFile"], f["discard"])

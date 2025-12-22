@@ -13,7 +13,7 @@ patterns = {
     "paragrafo": re.compile(r"^§\s*(\d+)[o°ºª]?\s*(.+)", re.IGNORECASE),
     "paragrafos": re.compile(r"§§?\s?(\d+[o°ºª]?\s*.?\s*\d+.?)\s*(.*)", re.IGNORECASE),
     "paragrafoUnico": re.compile(r"^(Par[aá]grafo [uú]nico)\.\s+(.+)", re.IGNORECASE),
-    "inciso": re.compile(r"^(X{0,3}I{1,3}|X{0,3}IV|X{0,3}VI{0,3}|X{0,3}IX{1,3}|X{1,3})\s*[-–]\s*(.+)", re.IGNORECASE),
+    "inciso": re.compile(r"^(X{0,3}I{1,3}|X{0,3}IV|X{0,3}VI{0,3}|X{0,3}IX{1,3}|X{1,3}|X{1,3}|X?LI{0,3}V?I{0,3}X?)\s*[-–]\s*(.+)", re.IGNORECASE),
     "alinea": re.compile(r"^([a-zA-Z])\)\s*(.*)", re.IGNORECASE),
     "final": re.compile(r"([A-Za-záéíóú ]+),?\s*(\d{1,2}.+\d{4}).+Independ[eê]ncia.+República", re.IGNORECASE)
 }
@@ -57,9 +57,14 @@ def generate_xml(txtFile: str, xmlFile: str, title: str, cf: bool):
             else:
                 tokens = line.split()
                 if len(tokens) >= 9:
-                    tipo = tokens[0]
-                    num = tokens[2].replace(",", "")
-                    data = " ".join(tokens[4:9]).replace(".", "").replace(",", "")
+                    if (tokens[1] == "COMPLEMENTAR"):
+                        j = 1
+                        tipo = tokens[0] + " " + tokens[1]
+                    else:
+                        j = 0
+                        tipo = tokens[0]
+                    num = tokens[2+j].replace(",", "")
+                    data = " ".join(tokens[4+j:9+j]).replace(".", "").replace(",", "")
                     append_element(info, "tipo", tipo)
                     append_element(info, "numero", num)
                     append_element(info, "data", data)

@@ -48,6 +48,7 @@ rm -fr build
 mkdir build
 
 # Executando o script principal em Python e o script de conversão para EPUB
+echo
 python3 src/main.py
 if [ $? -ne 0 ]; then
     echo "O script principal falhou. Saindo..."

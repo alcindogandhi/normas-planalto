@@ -13,8 +13,12 @@ from bs4 import BeautifulSoup
 
 def clean_line(line: str, discard: list[str] = []) -> str:
     line = line.strip()
+    line = re.sub(r"^Lcp *\d+$", "", line).strip()
+    line = re.sub(r"^L *\d+$", "", line).strip()
     line = re.sub(r".+-?[Cc][Oo][Mm][Pp][Ii][Ll][Aa][Dd][OoAa]$", "", line).strip()
     line = re.sub(r"^Presid.{1}ncia da Rep.{1}blica$", "", line).strip()
+    line = re.sub(r"^Secretaria Especial para Assuntos Jur.dicos$", "", line).strip()
+    line = re.sub(r"^Secretaria-Geral$", "", line).strip()
     line = re.sub(r"^Casa Civil$", "", line).strip()
     line = re.sub(r"^Subchefia para Assuntos Jur.{1}dicos$", "", line).strip()
     line = re.sub(r"\(Reda[cç][aã]o.+\)", "", line).strip()
@@ -34,10 +38,11 @@ def clean_line(line: str, discard: list[str] = []) -> str:
     line = re.sub(r"^\*$", "", line).strip()
     line = re.sub(r"Art\.\s*", "Art. ", line).strip()
     line = re.sub(r"^Regulamento$", "", line).strip()
+    line = re.sub(r"^\(?Promulgação partes vetadas\)?", "", line).strip()
 
     for term in discard:
         line = re.sub(term, "", line).strip()
-    return line
+    return line.strip()
 
 def html_to_text(url: str, output_file: str, discard: list[str] = []):
     # Define User-Agent do Google Chrome
@@ -55,7 +60,7 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
     response.encoding = 'iso-8859-1' #response.apparent_encoding or "utf-8"
 
     # Parse do HTML
-    text = response.text.replace('\r\n', ' ').replace('\n', ' ').replace('&nbsp;', '').replace('\t', ' ') \
+    text = response.text.replace('\r\n', ' ').replace('\n', ' ').replace('&nbsp;', ' ').replace('\t', ' ') \
         .replace('  ', ' ').replace('  ', ' ').replace('  ', ' ').replace('  ', ' ').replace('  ', ' ')
     soup = BeautifulSoup(text, "html.parser")
 
@@ -75,6 +80,10 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
     for p in soup.find_all("p"):
         p.insert_before("\n")
         #p.insert_after("\n")
+
+    # Insere um \n depois de uma linha de uma tabela
+    for tr in soup.find_all("tr"):
+        tr.insert_after("\n")
 
     # Extrai texto
     text = soup.get_text().replace('  ', ' ').replace('  ', ' ').replace('  ', ' ') \
