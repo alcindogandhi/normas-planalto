@@ -65,7 +65,7 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
     soup = BeautifulSoup(text, "html.parser")
 
     # Remove scripts e estilos
-    for tag in soup(["script", "style", "noscript"]):
+    for tag in soup(["script", "style", "noscript", "strike"]):
         tag.decompose()
 
     # Remove as tags <sup>
