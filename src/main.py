@@ -11,6 +11,7 @@ if __name__ == "__main__":
         {"url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm", "txtFile": "build/lindb.txt", "title": "Lei de Introdução às Normas do Direito Brasileiro", "cf": False, "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm", "txtFile": "build/ccivil.txt", "title": "Código Civil", "cf": False, "discard": ["^Lei de Introdu.+"]},
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/L8934compilado.htm", "txtFile": "build/cempr.txt", "title": "Código Empresarial", "cf": False, "discard": []},
+        {"url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del3914.htm", "txtFile": "build/licp.txt", "title": "Lei de Introdução do Código Penal", "cf": False, "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm", "txtFile": "build/cpenal.txt", "title": "Código Penal", "cf": False, "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm", "txtFile": "build/cdc.txt", "title": "Código de Defesa do Consumidor", "cf": False, "discard": []},
 		{"url": "https://www.planalto.gov.br/ccivil_03/leis/l9503compilado.htm", "txtFile": "build/ctb.txt", "title": "Código de Trânsito Brasileiro", "cf": False, "discard": []},

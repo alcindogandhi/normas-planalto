@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup
 def clean_line(line: str, discard: list[str] = []) -> str:
     line = line.strip()
     line = re.sub(r"^Lcp *\d+$", "", line).strip()
+    line = re.sub(r"^DEL *\d+$", "", line).strip()
     line = re.sub(r"^L *\d+$", "", line).strip()
     line = re.sub(r".+-?[Cc][Oo][Mm][Pp][Ii][Ll][Aa][Dd][OoAa]$", "", line).strip()
     line = re.sub(r"^Presid.{1}ncia da Rep.{1}blica$", "", line).strip()
@@ -78,6 +79,11 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
 
     # Substitui <p> por \n antes e depois
     for p in soup.find_all("p"):
+        p.insert_before("\n")
+        #p.insert_after("\n")
+
+    # Insere um \n antes de uma tabela
+    for p in soup.find_all("table"):
         p.insert_before("\n")
         #p.insert_after("\n")
 
