@@ -11,6 +11,15 @@ import requests
 import re
 from bs4 import BeautifulSoup
 
+g_end_text = False
+def end_text(line: str) -> bool:
+    global g_end_text
+    if g_end_text:
+        return True
+    if re.match(r"\s*Este texto n.{1}o substitui o publicado.*", line):
+        g_end_text = True
+    return g_end_text
+
 def clean_line(line: str, discard: list[str] = []) -> str:
     line = line.strip()
     line = re.sub(r"^Lcp *\d+$", "", line).strip()
@@ -80,7 +89,9 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
     # Substitui <p> por \n antes e depois
     for p in soup.find_all("p"):
         p.insert_before("\n")
-        #p.insert_after("\n")
+
+    for h in soup.find_all("h1"):
+        h.insert_before("\n")
 
     # Insere um \n antes de uma tabela
     for p in soup.find_all("table"):
@@ -96,8 +107,13 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
         .replace(' ;', ';').replace(' .', '.')
 
     # Normaliza múltiplas quebras de linha
-    lines = [ clean_line(line, discard) for line in text.splitlines() ]
-    clean_text = "\n".join([line for line in lines if line and (not line.startswith("(")) and (not line.startswith("Vigência"))])
+    global g_end_text
+    g_end_text = False
+    lines = [ clean_line(line, discard) for line in text.splitlines() if not end_text(line) ]
+    clean_text = "\n".join([line for line in lines if line \
+        and (not line.startswith("(")) \
+        and (not line.startswith(")")) \
+        and (not line.startswith("Vigência"))])
 
     # Salva no arquivo
     with open(output_file, "w", encoding="utf-8") as f:

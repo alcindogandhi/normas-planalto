@@ -20,6 +20,7 @@ if __name__ == "__main__":
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp24.htm", "txtFile": "build/lc24-1975.txt", "title": "Lei Complementar 24 de 1975", "cf": False, "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm", "txtFile": "build/lc214-2025.txt", "title": "Lei Complementar 214 de 2025", "cf": False, "discard": []},
         {"url": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp87.htm", "txtFile": "build/lc87-1996.txt", "title": "Lei Complementar 87 de 1996 - Lei Kandir", "cf": False, "discard": []},
+        {"url": "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm", "txtFile": "build/lc123-2006.txt", "title": "Lei Complementar 123 de 2006 - Simples Nacional", "cf": False, "discard": []},
     ]
     for f in files:
         html_to_txt.html_to_text(f["url"], f["txtFile"], f["discard"])
