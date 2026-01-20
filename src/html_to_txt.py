@@ -89,6 +89,7 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
     # Substitui <p> por \n antes e depois
     for p in soup.find_all("p"):
         p.insert_before("\n")
+        p.insert_after("\n")
 
     for h in soup.find_all("h1"):
         h.insert_before("\n")
@@ -113,7 +114,8 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
     clean_text = "\n".join([line for line in lines if line \
         and (not line.startswith("(")) \
         and (not line.startswith(")")) \
-        and (not line.startswith("Vigência"))])
+        and (not line.startswith("Vigência")) \
+    ])
 
     # Salva no arquivo
     with open(output_file, "w", encoding="utf-8") as f:
