@@ -182,6 +182,8 @@ def generate_xml(txtFile: str, xmlFile: str, title: str, cf: bool):
                 case "inciso":
                     inciso_id = matched.group(1)
                     inciso_text = matched.group(2)
+                    if not inciso_id or inciso_text.startswith(")"):
+                        continue
                     current_element = current_inciso = append_element(current_paragrafo, "Inciso", "", {"id": inciso_id, "text": inciso_text})
                 case "alinea":
                     alinea_id = matched.group(1)
