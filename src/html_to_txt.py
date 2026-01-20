@@ -68,9 +68,13 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
     response = requests.get(url, headers=headers, timeout=30)
     response.raise_for_status()
     response.encoding = 'iso-8859-1' #response.apparent_encoding or "utf-8"
+    text = response.text
+    #with open(url, 'r') as f:
+    #    text = f.read()
 
     # Parse do HTML
-    text = response.text.replace('\r\n', ' ').replace('\n', ' ').replace('&nbsp;', ' ').replace('\t', ' ') \
+    text = re.sub(r"<font\n?[^>]*>", " ", text, flags=re.IGNORECASE).replace("</font>", " ")
+    text = text.replace('\r\n', ' ').replace('\n', ' ').replace('&nbsp;', ' ').replace('\t', ' ') \
         .replace('  ', ' ').replace('  ', ' ').replace('  ', ' ').replace('  ', ' ').replace('  ', ' ')
     soup = BeautifulSoup(text, "html.parser")
 
@@ -128,10 +132,12 @@ if __name__ == "__main__":
     os.makedirs("build", exist_ok=True)
 
     files = [
-        {"url": "https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm", "outputFile": "build/ctn.txt", "discard": []},
-        {"url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm", "outputFile": "build/lindb.txt", "discard": []},
-        {"url": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm", "outputFile": "build/ccivil.txt", "discard": ["^Lei de Introdu.+"]},
-        {"url": "https://www.planalto.gov.br/ccivil_03/leis/L8934compilado.htm", "outputFile": "build/cempr.txt", "discard": []},
+        #{"url": "https://www.planalto.gov.br/ccivil_03/leis/l5172compilado.htm", "outputFile": "build/ctn.txt", "discard": []},
+        #{"url": "https://www.planalto.gov.br/ccivil_03/decreto-lei/del4657compilado.htm", "outputFile": "build/lindb.txt", "discard": []},
+        #{"url": "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm", "outputFile": "build/ccivil.txt", "discard": ["^Lei de Introdu.+"]},
+        #{"url": "https://www.planalto.gov.br/ccivil_03/leis/L8934compilado.htm", "outputFile": "build/cempr.txt", "discard": []},
+        {"url": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicaocompilado.htm", "outputFile": "build/cf88.txt", "discard": []},
+        #{"url": "text.html", "outputFile": "build/cf88.txt", "discard": []},
     ]
     for f in files:
         html_to_text(f["url"], f["outputFile"], f["discard"])
