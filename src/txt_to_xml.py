@@ -6,7 +6,9 @@ patterns = {
     "parte": re.compile(r"^PARTE\s+([a-zA-Z]+)$", re.IGNORECASE),
     "livro": re.compile(r"^LIVRO\s+([a-zA-Z]+)$", re.IGNORECASE),
     "titulo": re.compile(r"^T[IÍ]TULO\s+(X{0,3}I{1,3}|X{0,3}IV|X{0,3}VI{0,3}|X{0,3}IX{1,3}|X{1,3})", re.IGNORECASE),
+    "tituloUnico": re.compile(r"^T[IÍ]TULO\s+[UÚ]NICO", re.IGNORECASE),
     "capitulo": re.compile(r"^CAP[IÍ]TULO\s+(X{0,3}I{1,3}|X{0,3}IV|X{0,3}VI{0,3}|X{0,3}IX{1,3}|X{1,3})", re.IGNORECASE),
+    "capituloUnico": re.compile(r"^CAP[IÍ]TULO\s+[UÚ]NICO", re.IGNORECASE),
     "secao": re.compile(r"^Se[cç][aã]o\s+(X{0,3}I{1,3}|X{0,3}IV|X{0,3}VI{0,3}|X{0,3}IX{1,3}|X{1,3})", re.IGNORECASE),
     "artigo": re.compile(r"^Art\.?\s*(\d{1,3}\.?\d{3}-?[A-Za-z]?|\d+-?[A-Za-z]?)[Oo°ºª\.]?\s*[-]?\s*(.+)", re.IGNORECASE),
     "artigos": re.compile(r"^Arts.\s*(\d+\sa\s\d+)\s*\.?\s*(.*)", re.IGNORECASE),
@@ -124,8 +126,24 @@ def generate_xml(txtFile: str, xmlFile: str, title: str, cf: bool):
                     current_element = current_titulo = append_element(current_livro, "Titulo", "", {"id": id, "text": text})
                     current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo = current_secao = current_artigo = current_titulo
                     ignore = True
+                case "tituloUnico":
+                    id = "U"
+                    text = lines[i+1].strip()
+                    if text.startswith("CAPÍTULO"):
+                        text = "ÚNICO"
+                        ignore = False
+                    else:
+                        ignore = True
+                    current_element = current_titulo = append_element(current_livro, "Titulo", "", {"id": id, "text": text})
+                    current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo = current_secao = current_artigo = current_titulo
                 case "capitulo":
                     id = matched.group(1)
+                    text = lines[i+1].strip()
+                    current_element = current_capitulo = append_element(current_titulo, "Capitulo", "", {"id": id, "text": text})
+                    current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo
+                    ignore = True
+                case "capituloUnico":
+                    id = "U"
                     text = lines[i+1].strip()
                     current_element = current_capitulo = append_element(current_titulo, "Capitulo", "", {"id": id, "text": text})
                     current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo

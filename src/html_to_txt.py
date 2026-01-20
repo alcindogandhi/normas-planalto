@@ -22,9 +22,9 @@ def end_text(line: str) -> bool:
 
 def clean_line(line: str, discard: list[str] = []) -> str:
     line = line.strip()
-    line = re.sub(r"^Lcp *\d+$", "", line).strip()
-    line = re.sub(r"^DEL *\d+$", "", line).strip()
-    line = re.sub(r"^L *\d+$", "", line).strip()
+    line = re.sub(r"^Lcp *\d+$", "", line, flags=re.IGNORECASE).strip()
+    line = re.sub(r"^DEL *\d+$", "", line, flags=re.IGNORECASE).strip()
+    line = re.sub(r"^L *\d+$", "", line, flags=re.IGNORECASE).strip()
     line = re.sub(r".+-?[Cc][Oo][Mm][Pp][Ii][Ll][Aa][Dd][OoAa]$", "", line).strip()
     line = re.sub(r"^Presid.{1}ncia da Rep.{1}blica$", "", line).strip()
     line = re.sub(r"^Secretaria Especial para Assuntos Jur.dicos$", "", line).strip()

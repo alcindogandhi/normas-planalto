@@ -87,15 +87,17 @@
     <div class="livro">
       <h2>LIVRO <xsl:value-of select="@id"/></h2>
       <p><xsl:value-of select="@text"/></p>
-      <xsl:apply-templates select="Titulo|Texto"/>
+      <xsl:apply-templates select="Titulo|Capitulo|Artigo|Texto"/>
     </div>
   </xsl:template>
 
   <!-- Título -->
   <xsl:template match="Titulo">
     <div class="titulo">
-      <h3>TÍTULO <xsl:value-of select="@id"/></h3>
-      <p><xsl:value-of select="@text"/></p>
+      <xsl:choose>
+          <xsl:when test="@id='U'"><h3>TÍTULO ÚNICO</h3></xsl:when>
+          <xsl:otherwise><h3>TÍTULO <xsl:value-of select="@id"/></h3><p><xsl:value-of select="@text"/></p></xsl:otherwise>
+      </xsl:choose>
       <xsl:apply-templates select="Capitulo|Artigo|Texto"/>
     </div>
   </xsl:template>
