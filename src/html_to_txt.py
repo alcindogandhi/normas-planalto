@@ -11,12 +11,14 @@ import requests
 import re
 from bs4 import BeautifulSoup
 
+STR_END_TEXT = r"\s*Este texto n.{1}o substitui o publicado.*"
+
 g_end_text = False
 def end_text(line: str) -> bool:
     global g_end_text
     if g_end_text:
         return True
-    if re.match(r"\s*Este texto n.{1}o substitui o publicado.*", line):
+    if re.match(STR_END_TEXT, line):
         g_end_text = True
     return g_end_text
 
@@ -43,7 +45,7 @@ def clean_line(line: str, discard: list[str] = []) -> str:
     line = re.sub(r"Emendas Constitucionais.*", "", line).strip()
     line = re.sub(r"^Ato das Disposi.{2}es Constitucionais.*", "", line).strip()
     line = re.sub(r"^Atos decorrentes do disposto.+", "", line).strip()
-    line = re.sub(r"\s*Este texto n.{1}o substitui o publicado.*", "", line).strip()
+    line = re.sub(STR_END_TEXT, "ANEXO", line).strip()
     line = re.sub(r"P A R T E.+G E R A L", "PARTE GERAL", line).strip()
     line = re.sub(r"^\*$", "", line).strip()
     line = re.sub(r"Art\.\s*", "Art. ", line).strip()
@@ -54,7 +56,7 @@ def clean_line(line: str, discard: list[str] = []) -> str:
         line = re.sub(term, "", line).strip()
     return line.strip()
 
-def html_to_text(url: str, output_file: str, discard: list[str] = []):
+def html_to_text(url: str, output_file: str, anexos: bool = False, discard: list[str] = []):
     # Define User-Agent do Google Chrome
     headers = {
         "User-Agent": (
@@ -114,7 +116,7 @@ def html_to_text(url: str, output_file: str, discard: list[str] = []):
     # Normaliza múltiplas quebras de linha
     global g_end_text
     g_end_text = False
-    lines = [ clean_line(line, discard) for line in text.splitlines() if not end_text(line) ]
+    lines = [ clean_line(line, discard) for line in text.splitlines() if anexos or not end_text(line) ]
     clean_text = "\n".join([line for line in lines if line \
         and (not line.startswith("(")) \
         and (not line.startswith(")")) \

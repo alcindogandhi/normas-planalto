@@ -26,6 +26,8 @@
           div.titulo div.texto p { text-align: justify; font-size: 12pt; font-weight: bold; margin-left: 10pt; }
           div.texto p { text-align: justify; font-size: 12pt; margin-left: 10pt; }
           div.artigo div.texto p { text-align: justify; font-size: 12pt; margin-left: 10pt; }
+          div.anexo { margin: 20pt; }
+          div.anexo p { text-align: justify; font-size: 12pt; }
           .paragrafo, .inciso, .alinea, .texto { margin-left: 25pt; }
           .assinaturas { margin-top: 2em; }
         </style>
@@ -62,6 +64,9 @@
             <p><xsl:value-of select="."/></p>
           </xsl:for-each>
         </div>
+
+        <!-- Anexo -->
+        <xsl:apply-templates select="doc/Anexo"/>
       </body>
     </html>
   </xsl:template>
@@ -145,6 +150,15 @@
     <div class="alinea">
       <p><xsl:value-of select="@id"/> ) <xsl:value-of select="@text"/></p>
       <xsl:apply-templates select="Texto"/>
+    </div>
+  </xsl:template>
+
+  <!-- Anexo -->
+  <xsl:template match="Anexo">
+    <div class="anexo">
+    <xsl:for-each select="Texto">
+      <p><xsl:value-of select="."/></p>
+    </xsl:for-each>
     </div>
   </xsl:template>
 

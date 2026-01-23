@@ -17,7 +17,7 @@ patterns = {
     "paragrafoUnico": re.compile(r"^(Par[aá]grafo [uú]nico)\s?[-.]?\s+(.+)", re.IGNORECASE),
     "inciso": re.compile(r"^(M{0,3}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3}))\s*[-–]?\s*(.+)", re.IGNORECASE),
     "alinea": re.compile(r"^([a-zA-Z])\)\s*(.*)", re.IGNORECASE),
-    "final": re.compile(r"([A-Za-záéíóú ]+),?\s*(\d{1,2}.+\d{4}).+Independ[eê]ncia.+República", re.IGNORECASE)
+    "final": re.compile(r"([A-Za-záéíóú ]+),?\s*(\d{1,2}.+\d{4}).+Independ[eê]ncia.+República", re.IGNORECASE),
 }
 
 # Função auxiliar para adicionar elementos
@@ -40,9 +40,15 @@ def generate_xml(txtFile: str, xmlFile: str, title: str, cf: bool):
 
     # Processa cada linha e constrói a estrutura XML
     ignore = False
+    ignoreAnexo = False
+    anexo = False
     for i, line in enumerate(lines):
         if ignore:
             ignore = False
+            continue
+        if ignoreAnexo:
+            if line.startswith("ANEXO"):
+                ignoreAnexo = False
             continue
         line = line.strip()
         if not line:
@@ -98,98 +104,104 @@ def generate_xml(txtFile: str, xmlFile: str, title: str, cf: bool):
             append_element(info, "local", local)
             ii = i + 1
             assinaturas = append_element(info, "assinaturas", "")
-            while (ii < len(lines)) and (not lines[ii].startswith("Este texto")):
+            while (ii < len(lines)) and (not lines[ii].startswith("Este texto")) and (not lines[ii].startswith("ANEXO")):
                 append_element(assinaturas, "nome", lines[ii].strip())
                 ii = ii + 1
+            if (ii < len(lines)) and lines[ii].startswith("ANEXO"):
+                current_element = append_element(root, "Anexo", "")
+                anexo = True
+                ignoreAnexo = True
+                continue
             break
 
         matched = False
-        for key, pattern in patterns.items():
-            matched = pattern.match(line)
-            if not matched:
-                continue
-            match key:
-                case "parte":
-                    text = matched.group(1)
-                    id = text[0]
-                    current_element = current_parte = append_element(root, "Parte", "", {"id": id, "text": text})
-                    current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo = current_secao = current_artigo = current_titulo = current_livro = current_parte
-                case "livro":
-                    id = matched.group(1)
-                    text = lines[i+1].strip()
-                    current_element = current_livro = append_element(current_parte, "Livro", "", {"id": id, "text": text})
-                    current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo = current_secao = current_artigo = current_titulo = current_livro
-                    ignore = True
-                case "titulo":
-                    id = matched.group(1)
-                    text = lines[i+1].strip()
-                    current_element = current_titulo = append_element(current_livro, "Titulo", "", {"id": id, "text": text})
-                    current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo = current_secao = current_artigo = current_titulo
-                    ignore = True
-                case "tituloUnico":
-                    id = "U"
-                    text = lines[i+1].strip()
-                    if text.startswith("CAPÍTULO"):
-                        text = "ÚNICO"
-                        ignore = False
-                    else:
+        if not anexo:
+            for key, pattern in patterns.items():
+                matched = pattern.match(line)
+                if not matched:
+                    continue
+                match key:
+                    case "parte":
+                        text = matched.group(1)
+                        id = text[0]
+                        current_element = current_parte = append_element(root, "Parte", "", {"id": id, "text": text})
+                        current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo = current_secao = current_artigo = current_titulo = current_livro = current_parte
+                    case "livro":
+                        id = matched.group(1)
+                        text = lines[i+1].strip()
+                        current_element = current_livro = append_element(current_parte, "Livro", "", {"id": id, "text": text})
+                        current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo = current_secao = current_artigo = current_titulo = current_livro
                         ignore = True
-                    current_element = current_titulo = append_element(current_livro, "Titulo", "", {"id": id, "text": text})
-                    current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo = current_secao = current_artigo = current_titulo
-                case "capitulo":
-                    id = matched.group(1)
-                    text = lines[i+1].strip()
-                    current_element = current_capitulo = append_element(current_titulo, "Capitulo", "", {"id": id, "text": text})
-                    current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo
-                    ignore = True
-                case "capituloUnico":
-                    id = "U"
-                    text = lines[i+1].strip()
-                    current_element = current_capitulo = append_element(current_titulo, "Capitulo", "", {"id": id, "text": text})
-                    current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo
-                    ignore = True
-                case "secao":
-                    id = matched.group(1)
-                    text = lines[i+1].strip()
-                    current_element = current_secao = append_element(current_capitulo, "Secao", "", {"id": id, "text": text})
-                    current_inciso = current_paragrafo = current_artigo = current_secao
-                    ignore = True
-                case "artigo":
-                    artigo_id = matched.group(1)
-                    artigo_text = matched.group(2)
-                    current_element = current_artigo = append_element(current_secao, "Artigo", "", {"id": artigo_id, "text": artigo_text})
-                    current_inciso = current_paragrafo = current_artigo
-                case "artigos":
-                    artigo_id = matched.group(1)
-                    artigo_text = matched.group(2)
-                    current_element = current_artigo = append_element(current_secao, "Artigo", "", {"id": artigo_id, "text": artigo_text})
-                    current_inciso = current_paragrafo = current_artigo
-                case "paragrafo":
-                    par_id = matched.group(1)
-                    par_text = matched.group(2)
-                    current_element = current_paragrafo = append_element(current_artigo, "Paragrafo", "", {"id": par_id, "text": par_text})
-                    current_inciso = current_paragrafo
-                case "paragrafos":
-                    par_id = matched.group(1)
-                    par_text = matched.group(2)
-                    current_element = current_paragrafo = append_element(current_artigo, "Paragrafo", "", {"id": par_id, "text": par_text})
-                    current_inciso = current_paragrafo
-                case "paragrafoUnico":
-                    par_id = "U"
-                    par_text = matched.group(2)
-                    current_element = current_paragrafo = append_element(current_artigo, "Paragrafo", "", {"id": par_id, "text": par_text})
-                    current_inciso = current_paragrafo
-                case "inciso":
-                    inciso_id = matched.group(1)
-                    inciso_text = matched.group(2)
-                    if not inciso_id or inciso_text.startswith(")"):
-                        continue
-                    current_element = current_inciso = append_element(current_paragrafo, "Inciso", "", {"id": inciso_id, "text": inciso_text})
-                case "alinea":
-                    alinea_id = matched.group(1)
-                    alinea_text = matched.group(2)
-                    current_element = append_element(current_inciso, "Alinea", "", {"id": alinea_id, "text": alinea_text})
-            break
+                    case "titulo":
+                        id = matched.group(1)
+                        text = lines[i+1].strip()
+                        current_element = current_titulo = append_element(current_livro, "Titulo", "", {"id": id, "text": text})
+                        current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo = current_secao = current_artigo = current_titulo
+                        ignore = True
+                    case "tituloUnico":
+                        id = "U"
+                        text = lines[i+1].strip()
+                        if text.startswith("CAPÍTULO"):
+                            text = "ÚNICO"
+                            ignore = False
+                        else:
+                            ignore = True
+                        current_element = current_titulo = append_element(current_livro, "Titulo", "", {"id": id, "text": text})
+                        current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo = current_secao = current_artigo = current_titulo
+                    case "capitulo":
+                        id = matched.group(1)
+                        text = lines[i+1].strip()
+                        current_element = current_capitulo = append_element(current_titulo, "Capitulo", "", {"id": id, "text": text})
+                        current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo
+                        ignore = True
+                    case "capituloUnico":
+                        id = "U"
+                        text = lines[i+1].strip()
+                        current_element = current_capitulo = append_element(current_titulo, "Capitulo", "", {"id": id, "text": text})
+                        current_inciso = current_paragrafo = current_artigo = current_secao = current_capitulo
+                        ignore = True
+                    case "secao":
+                        id = matched.group(1)
+                        text = lines[i+1].strip()
+                        current_element = current_secao = append_element(current_capitulo, "Secao", "", {"id": id, "text": text})
+                        current_inciso = current_paragrafo = current_artigo = current_secao
+                        ignore = True
+                    case "artigo":
+                        artigo_id = matched.group(1)
+                        artigo_text = matched.group(2)
+                        current_element = current_artigo = append_element(current_secao, "Artigo", "", {"id": artigo_id, "text": artigo_text})
+                        current_inciso = current_paragrafo = current_artigo
+                    case "artigos":
+                        artigo_id = matched.group(1)
+                        artigo_text = matched.group(2)
+                        current_element = current_artigo = append_element(current_secao, "Artigo", "", {"id": artigo_id, "text": artigo_text})
+                        current_inciso = current_paragrafo = current_artigo
+                    case "paragrafo":
+                        par_id = matched.group(1)
+                        par_text = matched.group(2)
+                        current_element = current_paragrafo = append_element(current_artigo, "Paragrafo", "", {"id": par_id, "text": par_text})
+                        current_inciso = current_paragrafo
+                    case "paragrafos":
+                        par_id = matched.group(1)
+                        par_text = matched.group(2)
+                        current_element = current_paragrafo = append_element(current_artigo, "Paragrafo", "", {"id": par_id, "text": par_text})
+                        current_inciso = current_paragrafo
+                    case "paragrafoUnico":
+                        par_id = "U"
+                        par_text = matched.group(2)
+                        current_element = current_paragrafo = append_element(current_artigo, "Paragrafo", "", {"id": par_id, "text": par_text})
+                        current_inciso = current_paragrafo
+                    case "inciso":
+                        inciso_id = matched.group(1)
+                        inciso_text = matched.group(2)
+                        if not inciso_id or inciso_text.startswith(")"):
+                            continue
+                        current_element = current_inciso = append_element(current_paragrafo, "Inciso", "", {"id": inciso_id, "text": inciso_text})
+                    case "alinea":
+                        alinea_id = matched.group(1)
+                        alinea_text = matched.group(2)
+                        current_element = append_element(current_inciso, "Alinea", "", {"id": alinea_id, "text": alinea_text})
+                break
 
         if not matched:
             append_element(current_element, "Texto", line)
